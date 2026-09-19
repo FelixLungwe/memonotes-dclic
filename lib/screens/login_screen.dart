@@ -12,11 +12,9 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final TextEditingController _usernameController =
-      TextEditingController();
+  final TextEditingController _usernameController = TextEditingController();
 
-  final TextEditingController _passwordController =
-      TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   final AuthService _authService = AuthService();
 
@@ -35,11 +33,9 @@ class _LoginScreenState extends State<LoginScreen> {
   Future<void> _login() async {
     FocusScope.of(context).unfocus();
 
-    final String username =
-        _usernameController.text.trim();
+    final String username = _usernameController.text.trim();
 
-    final String password =
-        _passwordController.text;
+    final String password = _passwordController.text;
 
     if (username.isEmpty || password.isEmpty) {
       setState(() {
@@ -55,8 +51,7 @@ class _LoginScreenState extends State<LoginScreen> {
     });
 
     try {
-      final bool authenticated =
-          await _authService.authenticate(
+      final bool authenticated = await _authService.authenticate(
         username: username,
         password: password,
       );
@@ -75,10 +70,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(
-          builder: (context) =>
-              const NotesListScreen(),
-        ),
+        MaterialPageRoute(builder: (context) => const NotesListScreen()),
       );
     } catch (e) {
       if (!mounted) {
@@ -102,9 +94,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 24,
-          ),
+          padding: const EdgeInsets.symmetric(horizontal: 24),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -129,10 +119,7 @@ class _LoginScreenState extends State<LoginScreen> {
               const Text(
                 'Vos idées, simplement.',
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 14,
-                  color: AppColors.textSecondary,
-                ),
+                style: TextStyle(fontSize: 14, color: AppColors.textSecondary),
               ),
 
               const SizedBox(height: 64),
@@ -152,15 +139,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 controller: _usernameController,
                 enabled: !_isLoading,
                 textInputAction: TextInputAction.next,
-                autofillHints: const [
-                  AutofillHints.username,
-                ],
+                autofillHints: const [AutofillHints.username],
                 decoration: InputDecoration(
-                  hintText:
-                      "Saisissez votre nom d'utilisateur",
-                  enabledBorder: _authenticationFailed
-                      ? _errorBorder()
-                      : null,
+                  hintText: "Saisissez votre nom d'utilisateur",
+                  enabledBorder: _authenticationFailed ? _errorBorder() : null,
                 ),
                 onChanged: (_) {
                   if (_authenticationFailed) {
@@ -189,20 +171,14 @@ class _LoginScreenState extends State<LoginScreen> {
                 enabled: !_isLoading,
                 obscureText: !_passwordVisible,
                 textInputAction: TextInputAction.done,
-                autofillHints: const [
-                  AutofillHints.password,
-                ],
+                autofillHints: const [AutofillHints.password],
                 decoration: InputDecoration(
-                  hintText:
-                      'Saisissez votre mot de passe',
-                  enabledBorder: _authenticationFailed
-                      ? _errorBorder()
-                      : null,
+                  hintText: 'Saisissez votre mot de passe',
+                  enabledBorder: _authenticationFailed ? _errorBorder() : null,
                   suffixIcon: IconButton(
                     onPressed: () {
                       setState(() {
-                        _passwordVisible =
-                            !_passwordVisible;
+                        _passwordVisible = !_passwordVisible;
                       });
                     },
                     icon: Icon(
@@ -232,25 +208,19 @@ class _LoginScreenState extends State<LoginScreen> {
 
                 const Text(
                   "Nom d'utilisateur ou mot de passe incorrect.",
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: AppColors.error,
-                  ),
+                  style: TextStyle(fontSize: 12, color: AppColors.error),
                 ),
               ],
 
               const SizedBox(height: 36),
 
               ElevatedButton(
-                onPressed: _isLoading
-                    ? null
-                    : _login,
+                onPressed: _isLoading ? null : _login,
                 child: _isLoading
                     ? const SizedBox(
                         width: 22,
                         height: 22,
-                        child:
-                            CircularProgressIndicator(
+                        child: CircularProgressIndicator(
                           strokeWidth: 2,
                           color: AppColors.white,
                         ),
@@ -267,9 +237,7 @@ class _LoginScreenState extends State<LoginScreen> {
   OutlineInputBorder _errorBorder() {
     return OutlineInputBorder(
       borderRadius: BorderRadius.circular(12),
-      borderSide: const BorderSide(
-        color: AppColors.error,
-      ),
+      borderSide: const BorderSide(color: AppColors.error),
     );
   }
 }

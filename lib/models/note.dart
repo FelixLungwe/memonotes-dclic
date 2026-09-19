@@ -28,12 +28,8 @@ class Note {
       id: map['id'] as int,
       titre: map['titre'] as String,
       contenu: map['contenu'] as String,
-      dateCreation: DateTime.parse(
-        map['date_creation'] as String,
-      ),
-      dateModification: DateTime.parse(
-        map['date_modification'] as String,
-      ),
+      dateCreation: DateTime.parse(map['date_creation'] as String),
+      dateModification: DateTime.parse(map['date_modification'] as String),
     );
   }
 
@@ -49,8 +45,7 @@ class Note {
       titre: titre ?? this.titre,
       contenu: contenu ?? this.contenu,
       dateCreation: dateCreation ?? this.dateCreation,
-      dateModification:
-          dateModification ?? this.dateModification,
+      dateModification: dateModification ?? this.dateModification,
     );
   }
 }

@@ -6,13 +6,11 @@ import '../models/note.dart';
 class DatabaseHelper {
   DatabaseHelper._();
 
-  static final DatabaseHelper instance =
-      DatabaseHelper._();
+  static final DatabaseHelper instance = DatabaseHelper._();
 
   static Database? _database;
 
-  static const String _databaseName =
-      'memonotes.db';
+  static const String _databaseName = 'memonotes.db';
 
   static const int _databaseVersion = 1;
 
@@ -29,27 +27,15 @@ class DatabaseHelper {
   }
 
   Future<Database> _initDatabase() async {
-    final String databasesPath =
-        await getDatabasesPath();
+    final String databasesPath = await getDatabasesPath();
 
-    final String path = join(
-      databasesPath,
-      _databaseName,
-    );
+    final String path = join(databasesPath, _databaseName);
 
-    return openDatabase(
-      path,
-      version: _databaseVersion,
-      onCreate: _onCreate,
-    );
+    return openDatabase(path, version: _databaseVersion, onCreate: _onCreate);
   }
 
-  Future<void> _onCreate(
-    Database db,
-    int version,
-  ) async {
-    await db.execute(
-      '''
+  Future<void> _onCreate(Database db, int version) async {
+    await db.execute('''
       CREATE TABLE $_notesTable(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         titre TEXT NOT NULL,
@@ -57,40 +43,29 @@ class DatabaseHelper {
         date_creation TEXT NOT NULL,
         date_modification TEXT NOT NULL
       )
-      ''',
-    );
+      ''');
   }
 
   Future<int> insertNote(Note note) async {
     final Database db = await database;
 
-    return db.insert(
-      _notesTable,
-      note.toMap(),
-    );
+    return db.insert(_notesTable, note.toMap());
   }
 
   Future<List<Note>> getAllNotes() async {
     final Database db = await database;
 
-    final List<Map<String, dynamic>> maps =
-        await db.query(
+    final List<Map<String, dynamic>> maps = await db.query(
       _notesTable,
       orderBy: 'date_modification DESC',
     );
 
-    return maps
-        .map(
-          (map) => Note.fromMap(map),
-        )
-        .toList();
+    return maps.map((map) => Note.fromMap(map)).toList();
   }
 
   Future<int> updateNote(Note note) async {
     if (note.id == null) {
-      throw ArgumentError(
-        'Impossible de modifier une note sans identifiant.',
-      );
+      throw ArgumentError('Impossible de modifier une note sans identifiant.');
     }
 
     final Database db = await database;
@@ -106,11 +81,7 @@ class DatabaseHelper {
   Future<int> deleteNote(int id) async {
     final Database db = await database;
 
-    return db.delete(
-      _notesTable,
-      where: 'id = ?',
-      whereArgs: [id],
-    );
+    return db.delete(_notesTable, where: 'id = ?', whereArgs: [id]);
   }
 
   Future<void> close() async {

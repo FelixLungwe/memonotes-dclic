@@ -6,11 +6,8 @@ class AuthService {
     required String username,
     required String password,
   }) async {
-    await Future.delayed(
-      const Duration(milliseconds: 500),
-    );
+    await Future.delayed(const Duration(milliseconds: 500));
 
-    return username.trim() == demoUsername &&
-        password == demoPassword;
+    return username.trim() == demoUsername && password == demoPassword;
   }
 }
